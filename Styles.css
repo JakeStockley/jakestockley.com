@@ -1,0 +1,113 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+	font-family: IBM; src: url('Fonts/IBMPlexSans-Regular.ttf');
+}
+
+.container {
+	display: grid;
+	grid-template-columns: 260px auto;
+	grid-template-rows: 80px auto;
+	height: 100%;
+}
+
+.tree {
+	letter-spacing: 0px;
+	font-size: 20px;
+	line-height: 1.2;
+	font-family: IBM;
+}
+
+.superframe_R {
+	float: right;
+	margin: 20px;
+}
+
+.superframe_L {
+	float: left;
+	margin: 20px;
+}
+
+.superframe_C {
+	float: center;
+	margin: 20px;
+}
+
+.frame {
+	padding: 5px;
+	background-color:#d5e2e8; 
+}
+
+.photowall {
+	padding: 5px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+
+.graphlist {
+	padding: 5px;
+	display: grid;
+	grid-template-columns: 600px;
+}
+
+#ribbon {
+	background-color: #d5e2e8;
+	grid-column-start: 1;
+	grid-column-end: 3;
+	padding: 10px;
+	display: grid;
+	grid-template-columns: 450px auto;
+	grid-template-rows: 60px;
+}
+
+#links {
+	display: grid;
+	justify-content: end;
+	grid-template-rows: 60px;
+	grid-auto-flow: column;
+	column-gap: 20px;
+}
+
+#title {
+	padding: 0px;
+}
+
+#explorer {
+	background-color: #67B7D1;
+}
+
+#explorer_tree {
+	padding-left: 10px;
+}
+
+#page {
+	padding: 18px;
+	background-color: white;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+#main {
+	font-size: 20px;
+}
+
+#graphframe {
+	display: grid;
+	grid-template-columns: 1fr 2fr auto;
+}
+
+.center {
+	text-align: center;
+}
+
+.right {
+	text-align: right;
+}
+
+#1 {
+	padding: 5px;
+}

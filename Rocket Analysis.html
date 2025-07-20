@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<HTML>
+	<head>
+		<meta charset="UTF-8" content="width=device-width, initial-scale=1.0">
+		<title>Website.com</title>
+		<link rel="stylesheet" href="Styles.css">
+	</head>
+	<body>
+		<div class="container">
+			<div id="ribbon">
+				<div id="title">
+					<h1>Rocket Analysis</h1>
+				</div>
+				<div id="links">
+					<a href="https://www.linkedin.com/in/jake-stockley-987458335/"><img src="Images/Linkedin.png" alt="Link to my social" height="50"></a>
+					<a href="https://github.com/JakeStockley"><img src="Images/Github.png" alt="Link to my social" height="50"></a>
+					<a href="https://www.facebook.com/profile.php?id=61574440867536"><img src="Images/Facebook.png" alt="Link to my social" height="50"></a>
+					<a href="https://www.instagram.com/jake_stockley/"><img src="Images/Instagram.png" alt="Link to my social" height="50"></a>
+					<a href="https://x.com/Jake_S_Stockley"><img src="Images/X.png" alt="Link to my social" height="50"></a>
+				</div>
+			</div>
+			<div id="explorer">
+				<div id="explorer_tree">
+					<p class="tree">
+						<a href="Index.html">Homepage (✓)</a>
+						<br> Hobbies
+						<br>├─ <a href="Microscopy.html">Microscopy (✓)</a>
+						<br>├─ <a href="Photography.html">Photography (✓)</a>
+						<br>├─ <a href="Geology.html">Geology (×)</a>
+						<br>└─ <a href="Biology.html">Biology (✓)</a>
+						<br>Engineering
+						<br>├─ <a href="My Course.html">My Course (×)</a>
+						<br>├─ <a href="Resources.html">Resources (✓)</a>
+						<br>└─ Personal Projects
+						<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ RC Systems
+						<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├─ <a href="Slipper.html">Slipper (×)</a>
+						<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├─ <a href="MK I.html">MK I (×)</a>
+						<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├─ <a href="MK II.html">MK II (×)</a>
+						<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;└─ <a href="MK III.html">MK III (×)</a>
+						<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <a href="3D printer.html">3D printer (×)</a>
+						<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <a href="Rocket Analysis.html">Rocket Analysis (✓)</a>
+						<br><a href="This Website.html">This Website (×)</a>
+						<br><a href="Changelog.html">Changelog (✓)</a>
+						<br><a href="Contact Me.html">Contact Me (✓)</a>
+					</p>
+				</div>
+			</div>
+			<div id="page">
+				<h2>Rocket Analysis and Simulation</h2>
+				<div class="superframe_R"><div class="frame"><p class="center"><img src="Images/KSP_Hopper Rocket.png" width=350px></img><br>A rocket of my design,<br> a moon lander and surveyer called <i>Hopper</i></p></div></div>
+				<p>I have played space simulators for years. There was just something incredible about making your own rocket, launching and piloting it into space to it's destination and then landing it back on earth,
+				mission accomplised. However something allways irked me about this. All of my rockets just got the job done. Which in all fairness was perfectly fine by the game's standards.
+				I never played with any monitary constraints or campaign gamemodes, I just played to do cool stuff when I wanted and how I wanted. But all of the rockets were... suboptimal. They were all eyeballed,
+				rule of thumb and guesstimated. This is how everyone plays these games, and some of the progression of these games is learning by sight and feel if these rockets will make it, or be stuck in orbit until
+				the sun dies because it didn't have enouth fuel to make it <i>all</i> the way to mars. But I didn't want a "it's inefficent but it'll do" solution. It would not do.<br><br> I wanted a mathematical model to accurately state that this rocket will get me X far. And such a system existed!
+				Kind of. Some games will calculate the Δv of the rocket (Δv means difference in velocity. For rockets, its pretty much the most important factor to consider when, as Δv is a measure of what you can do and where can you get),
+				and this is amazing! You can download charts online that show the Δv your rocket needs to do certain things, such as to get into orbit, travel to other planets, land on moons and more! However... there
+				was allways something missing. How do I know my rocket is <i>really</i> the best fit for the job? What if I used a higher efficency thruster and reduced the fuel? Is adding an additional two thrusters to
+				my already present 6 engines going to change my Δv significantly, or does it give me diminishing returns? And what if I do want to optimise for cost? How to I figure out the minimum safe amount of fuel?
+				<br><br>After completing my first year at university and having some free time over the summer, I resolved to fix this nag and make a general mathmatical model I can apply to any rocket to find improvements,
+				or to use it to build a rocket from scratch. So, without further ado, let's get into it!</p>
+				<p>Be warned: This is quite technical and complicated mathematics, however I shall try my best to explain as best and intuitively as I can and gloss over any unessicary complexity</p>
+				<h2>Chapter 1: How much ΔV?</h2>
+				<p>When tackling such a problem, the best way to go about it is to assume the simplest case first, then add complexity as we go along. To start off, we will determine the Δv of our rocket, then change it
+				 to make it easy to work with for construction purposes. We shall be testing our rockets in <a href="https://store.steampowered.com/app/1718870/Spaceflight_Simulator/">Space Flight Simulator</a> (SFS), a simplistic
+				 space simulation game that is perfect for our puproses, because of it's feature for us to easily turn on and off gravity and air reistance, allowing us to simulate our basic case. Pictured below (<i>fig2.</i>) is the rocket
+				 we shall be analysing. This is the bare minimum needed for a "funcational" rocket. A single thruster, command pod, parachute, stage seperator and a heat sheild.</p>
+				 <div class="superframe_L"><div class="frame"><p class="center"><img src="Images/V01_Rocket.png" width=100px><br><i>fig2. </i>A small rocket</p></img></div></div>
+				 <br>
+				 <div class="superframe_R"><div class="frame"><p class="center"><img src="Images/Formulae/ClassicRocket.png" height=100px><br><i>fig3. </i> The Classic Rocket Equation</p></img></div></div>
+				 <p>Fortunately, this equation exists, and is quite simple! Discovered by the British mathematician William Moore in 1810, the <i>Classical Rocket Equation</i> (also known as the Tsiolkovsky rocket equation) encapsulates how much Δv any
+				 given rocket will produce. Pictured on the right (<i>fig3.</i>), this equation required several parameters. These are:
+				 <ul>
+					<li>Dry mass</li>
+					<li>Wet mass</li>
+					<li>Engine ISP</li>
+				 </ul>
+				 <p>ISP is easy. It's simply a quantity of the engine we are using. We are using a Hawk engine which has an ISP of 360. The Wet and Dry mass are harder, as we don't want to have to re-calculate this each time
+				 we make another rocket, as that's time consuming. We want a general equation where we put in our payload and the number of fuel tanks. Combining this, we get the following equation (<i>fig4</i>), not that DF and MF
+				 stand for Dry Fuel Tank and Wet Fuel Tank respecitvely, and <i>n</i> is the number of fuel tanks.</p><div class="superframe_R"><div class="frame"><p class="center"><img src="Images/Formulae/AppliedClassicRocket.png" height=100px><br><i>fig4.</i> Our version of the Classic Rocket Equation</p></img></div></div>
+				 <p>We can use this equation to predict the Δv of any given spacecraft. So, putting in 5 fuel tanks, each with a Wet Mass of 5t (tonnes) and a Dry Mass of 0.12t plus a hawk engine can take a payload of 7.05t to 5059.43 m/s.
+				 We can test the veracity of this by building the rocket, turning off atmospheric drag and gravity and take off! And the actuall speed we get is...<br><br><b>5043.1 m/s</b>, that is amazingly accurate! That has a
+				 uncertaintly of a miniscule <i>0.32%</i>. Without any underlying knowledge of how the SFS game engine works, it can be hard to say where the rest of the speed went. Most likely it's due to the difference of our
+				  methods. We are using a analytical aproach, however the computer will be using a Numerical aproach. Combine this with the fininte amount of digits for a number computers can store, this means that the simulator
+				  would be making a large amount of very small rounding errors, hence the small difference. As this difference is dependent on the amount of time it takes to complete the burn, it should not be a problem for the
+				  time being as our burn times are relitively small.</p>
+				 </p>
+				 
+				 <h2>Chapter 2: Simple Gravity Modeling</h2>
+				 <div class="superframe_R"><div class="frame"><p class="center"><img src="Images/Formulae/GravitationalyAppliedClassicRocket.png" height=100px><br><i>fig5. </i> Our newly modified rocket equation which compansates for gravitational ascent</p></img></div></div>
+				 <p>What comes up must come down. Not if we have anything to say about it! Our previous calculations assumed we were in outer space, with no gravity keeping us down. This is suitible for orbit but not
+				 for take-off from a planet's surface. Our current equation claims that our final speed will increace regardless of how many fuel tanks we put on. In the real world, this is not the case. Too much fuel and the
+				 rocket will be unable to take off. As velocity can be expressed as accelleration multiplied by time, we can simply subtract this value from our equation, obtaining the final speed given gravitational accelleration.
+				 For this we need two things, accelleration and time. Accelleration is easy, it's just 9.81. While this is aproximate, we shall use it for now and come up with a more complete solution later. Time is harder. However
+				 We can find it out. ISP is dependent on a quanitity called mass flow. Mass flow is the rate of change of mass, and dividing your mass of fuel by the mass flow will get you the time. If you know your ISP and your
+				 rocket's thrust, you can calculate mass flow. <i>fig5. </i> shows our new formula, where we multiply the time taken by the accelleration due to gravity. We can find our mass by multiplying the wet weight of our
+				 fuel tanks (the amount of fuel in our tanks) by the number of tanks.</p>
+				 <div class="superframe_L"><div class="frame"><p class="center"><img src="Images/Graphs/G01.png" width=400px><br><i>fig5. </i> The relation between v and n for a given rocket</p></img></div></div>
+				 <p>This equation is special. Now we have a balancing act. Too little fuel, and we won't achive our maximum speed. Too much fuel, and gravity would drag us down. How can we figure out the maximum speed?
+				 Well, to do this we need another tool. A graph. We can put this equation into a graphing calculator, analyse the shape of the graph and draw conclusions from it. The graphing calculator I have chosen is called
+				 <a href="https://www.desmos.com">Desmos</a>. It is a very powerfull, easy to use and free graphing calculator. Putting our equation into desmos with the same craft we used in chapter 1 gets us this (<i>fig5.</i>) graph.</p>
+				 <p>On the Y-axis (vertical) we have speed. The higher up it is, the faster it goes. On the X-axis (horizontal). The peak of the graph is the optimum n, and any point below the X-axis will not take off. The value
+				 at the peak is 17.16. As we can't have .16 of a fuel tank, we round it to 17 fuel tanks. This is the perfect amount of fuel tanks for our situation which in turn gets us up to <b>5734.8</b> m/s.
+				 <br>Simulating this in SFS gives us a final velocity of <b>5760.1</b> m/s. This is intresting, as our rocket actually overperformed, most likely due to the computer's rounding error mentioned earlier.</p>
+				 <div class="superframe_L"><div class="frame"><p class="center"><img src="Images/Rocket17.png" width=1000px><br><i>fig6. </i> The simulated rocket with 17 tanks of fuel</p></img></div></div>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <h2>Chapter 3: Complex Gravity Modeling</h2>
+				 
+				  <div class="superframe_R"><div class="frame"><p class="center"><img src="Images/Formulae/ComplexGravity.png" width=800px><br><i>fig7. </i>The stages of calculation</p></img></div></div>
+				 <p>Gravity is not constant. The further away from a celestial body you get, the weaker it's pull. This is not moddeled by our equation, which assumes g=9.81 at all points in space.
+				 This works for short burns close to the earth's surface. However, when you have longer burns over a greater distance, gravity changes. This means we have to average the gravity between two different
+				 heights. There are also additonal problems with this approach. We can't just do the standard g1+g2 / 2 = g to average it, as that asumes gravity increaces linearly with distance. This is
+				 simply not the case. Gravity increaces proportionaly to the square of distance. A much more annoying relationship. From this, we will need the following method:</p>
+				 <ul>
+					<li>Integrate the gravity / d curve</li>
+					<li>Find the area between two points</li>
+					<li>divide that area by the traveled distance</li>
+				 </ul>
+				 <p>This will get us our gravitational force. Another thing we can do is to make our formula for gravity more general. Earth isn't the only body in space. There are far more places we can take off from.
+				 What about the moon? Mars? We can't model a venusian ascent yet. We can use the standard gravitational formula with this, then combining it with our integration method, it will solve all of our gravitational
+				 innacuracies. I am not going to do a step-by-step walk-through of my workings, as I want this page to drag on and on, so the basic method is on the right (<i>fig7.</i>)</p>
+				 <p>Variables:</p>
+				 <ul>
+					<li>gI: The integral of gravity</li>
+					<li>gDI: The definite integral of gravity</li>
+					<li>gAVG: The average gravity</li>
+					<li>r: Radius from the plane't center</li>
+					<li>G: The Gravitational constant</li>
+					<li>M: Mass of the celestial body</li>
+					<li>DPR: The planetary radius</li>
+					<li>DIH: The initial height (above the planet's surface)</li>
+					<li>DFH: The final height (above the planet's surface)</li>
+				 </ul>
+				 <p>This is our new and improved equation (<i>fig8.</i>)...</p>
+				 <div class="superframe_L"><div class="frame"><p class="center"><img src="Images/Formulae/EQN01.png" width=700px><br><i>fig8. </i>the new and improved equation, it has quite a length!</p></img></div></div>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <h2>Chapter 4: Formula modification and analysis</h2>
+				 <p>We can further refine this formula to be more practical for modeling real construction by inputting the properties of the rocket thrusters into our equation to find the thrust, mass and ISP of the rocket
+				 easily while also allowing us to find the optimum amount of thrusters for the construction. Another addition is a gravity switch (GS), a value that is eitehr 1 or 0 that we can use to switch between takeoff /
+				 space conditions. This is our new formula (<i>fig9.</i>):</p>
+				 <div class="superframe_C"><div class="frame"><p class="center"><img src="Images/Formulae/V1_Formula.png" width=1200px><br><i>fig9.</i></p></img></div></div>
+				 <p>All the variables needed:</p>
+				 <ul>
+					<li>v: Velocity</li>
+					<li>g0: The surface strength of gravity</li>
+					<li>ISP: The thruster's spesific impulse</li>
+					<li>p: Payload mass</li>
+					<li>nE: Number of engines</li>
+					<li>ME: Mass of an engine</li>
+					<li>MO: Other masses, such as fairings, struts, fuel pipes, etc.</li>
+					<li>x: Number of fuel tanks</li>
+					<li>MFT: Mass of a full tank</li>
+					<li>MET: Mass of an empty tank</li>
+					<li>GS: The gravity switch</li>
+					<li>G: The Gravitational constant</li>
+					<li>M: Mass of the celestial body</li>
+					<li>DPR: The planetary radius</li>
+					<li>DIH: The initial height (above the planet's surface)</li>
+					<li>DFH: The final height (above the planet's surface)</li>
+					<li>TET: Thrust of an engine in tonnes</li>
+				 </ul>
+				 <p>Now, last time we had an equation, we analysed it with a graph. We can do the same here, however there are so many variables we can use to model the rocket. Each engine will have it's own graph, we will have
+				 a target velocity to reach and these graphs will tell us the optimal number of fuel tanks and engines. We will then have several rockets to choose from, and we pick the most cost-efficent one. To help understand
+				 the graph, an example graph (<i>fig10.</i>) has been made for an LR-89-5 engine and 10 tonnes of payload. This graph has been colour-coded to help with clarity.</p>
+				  <div class="superframe_C"><div class="frame"><p class="center"><img src="Images/Graphs/LR-89-5_10T.png" width=1200px><br><i>fig10.</i> The relationship between number of fuel tanks and number of engines as regions of difference in velocity</p></img></div></div>
+				 <p>On the Y-Axis is the number of fuel tanks used. The X-Axis is the number of the given engine used. Each point on the graph represents a different rocket. At the location (4,15) we will have a rocket with 5 engines
+				  and 15 fuel tanks. This rocket lands in the region of 4000-5000 m/s, so once the burn is complete we will end up with a speed between these two values. The dashed black line is the takeoff boundry. Anything 
+				  above the takeoff boundry is unable to launch under it's own weight. At the boundry of two regions, let's take the red and blue regions, is the exact speed of 2000 m/s. Each speed plot's it's own curve across
+				   the graph, so if we insert another graph with v=5650 m/s then another curve would appear inside the purple region. This is what we shall do, we shall pick a final speed goal, plot the given curve then use it
+				   to find the optimum rocket given that engine.</p>
+				 <p>The payload is featured in <i>fig11.</i> and has a mass of 24.68t aiming for 5000 m/s. We will test the following engines (in order in <i>fig12.</i>):</p>
+				 <div class="superframe_R"><div class="frame"><p class="center"><img src="Images/Engines.png" height=300px><br><i>fig12.</i> The rockets we shall be comparing</p></img></div></div>
+				 <div class="superframe_R"><div class="frame"><p class="center"><img src="Images/Payload.png" height=300px><br><i>fig11.</i> The payload we want to launch</p></img></div></div>
+				 <ul>
+					<li>Kolibri: m=0.25t, T=15t, ISP=390, <i>fig13.</i></li>
+					<li>Valiant: m=1t, T=40t, ISP=420, <i>fig14.</i></li>
+					<li>Hawk: m=1.75t, T=120t, ISP=360, <i>fig15.</i></li>
+					<li>Frontier: m=3t, T=100t, ISP=435, <i>fig16.</i></li>
+					<li>Titan: m=6t, T=400t, ISP=360, <i>fig17.</i></li>
+				 </ul>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <br>
+				 <div id="graphframe">
+					<div class="graphlist">
+						<div class="superframe_L"><div class="frame"><p class="center"><img src="Images/Kolibri.png" height=300px><br><i>fig13.</i> The graph of the Kolibri engine</p></img></div></div>
+						<div class="superframe_L"><div class="frame"><p class="center"><img src="Images/Valiant.png" height=300px><br><i>fig14.</i> The graph of the Valiant engine</p></img></div></div>
+						<div class="superframe_L"><div class="frame"><p class="center"><img src="Images/Hawk.png" height=300px><br><i>fig15.</i> The graph of the Hawk engine</p></img></div></div>
+						<div class="superframe_L"><div class="frame"><p class="center"><img src="Images/Frontier.png" height=300px><br><i>fig16.</i> The graph of the Frontier engine</p></img></div></div>
+						<div class="superframe_L"><div class="frame"><p class="center"><img src="Images/Titan.png" height=300px><br><i>fig17.</i> The graph of the Titan engine</p></img></div></div>
+					</div>
+					<div id="1"><p>We want the least amount of material for our goal of 5000 m/s, so we want both a low amount of engines and low amount of fuel. We also want to take <br> proportions into account. A rocket can't be flat like a
+						 pancake, so the Kolbri's best of 22 engines and 50 fuel tanks is unfeasable. We probably only want our <br> rocket to have five engines maximum, as any more than that would either make the rocket too flat, or if
+						 it is in proportion, it would be absurdly big. The clear winner is the Titan engine, with a engine count of 2 and a fuel tank requirement of 34 projected to get us almost (+0.23 m/s) 5000 m/s. Below
+						 (<i>fig18.</i>)</p>
+						 <p>However, calculations are nice, how well does this depiction stand up to reality? Well, running the simulation gave us a final speed of...</p>
+						 <p><b>4992 m/s</b></p>
+						 <p>Only 8 m/s off, that is some amazing accuracy!</p>
+						 <p>The speed of low earth orbit is 7800 m/s, at an altitude of about 160km. Putting this into our equation, it says we need 9 Titans and 300 tanks of fuel (see <i>fig19.</i>).</p>
+						 <div class="superframe_R"><div class="frame"><p class="center"><img src="Images/'160'kmOrbit.png" width=250px><br><i>fig20.</i> a completely perfect orbit</p></img></div></div>
+						 <div class="superframe_R"><div class="frame"><p class="center"><img src="Images/Absurd.png" width=300px><br><i>fig19.</i> the reason stages exist</p></img></div></div>
+						 <div class="superframe_R"><div class="frame"><p class="center"><img src="Images/Rocket5000.png" width=300px><br><i>fig18.</i> the rocket</p></img></div></div>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <br>
+						 <p>This rocket achives it's goal! It manages to get into earth orbit, see <i>fig20.</i>, and as many keen-eyed readers will have noticed that the orbit pictured is not a perfect 160km orbit, but instead
+						 a highly eliptical one. This is due to <strike>skill issue</strike> a set of extremely complicated astrophysical factors that will take too long to explain, however if the rocket had made a perfect orbit
+						  it would be just over 160km.</p>
+						  <div class="superframe_L"><div class="frame"><p class="center"><img src="Images/Satelite_1.png" width=1000px><br><i>fig21.</i> The payload: A satelite now in low earth orbit.<br>With it's ion thrusters, it should be able to correct that shakey orbit with ease!</p></img></div></div>
+					</div>
+				 </div>
+				 <div class="superframe_R"><div class="frame"><p class="center"><img src="Images/%Table.png" width=1000px><br><i>fig22.</i></p></img></div></div>
+				 <h2>Chapter 5: Aerodynamics and Trajectory Compensation</h2>
+				 <p>When we take off, we have to go fast. However any body moving through a fluid experiences drag approximatly proportional to it's velocity.<br> This can be a big hinderance, one which must be accounted for.
+				 Fortunatley it only really matters during the ascent between 0 and 120000m.<br>
+				  Another factor is the trajectory. Heading sideways is far more efficent, as you aren't fighting gravity to ascend, but instead contributing directly to your orbit's velocity. This is done by flying a curved path, it's efficency determined by the skill of the pilot.
+				  We can account for both of these effects by adding extra 𝚫v to our rocket.</p>
+				  <p>While the effects and magnitudes of these forces can be extremely complicated to attain, involving many very hard differential equations, a far simpler (and for all our intents and purposes, better) method
+				   is to simply launch rockets of different sizes, then see how much deviation there is from our ideal model. As a general rule I want to implement a ~10% uncertainty buffer for my flights to account for margin
+				   of error, and these test flights will be an excellent way to see how achiveable this will be.
+				  <ol>
+					<li>Launch a small rocket, find the % loss</li>
+					<li>Launch progressively bigger rockets, recording the % loss of speed each time</li>
+					<li>Observe any trend</li>
+					<li>Use this trend to make a safe assumption of extra 𝚫v needed for any given rocket (in the form of a factor)</li>
+					<li>Add this extra 𝚫v on to any additonal rocket we make</li>
+				  </ol>
+				 </p>
+				 <div class="superframe_R"><div class="frame"><p class="center"><img src="Images/Monster_Rocket.png" width=400px><br><i>fig23.</i> The rocket</p></img></div></div>
+				 <div class="superframe_R"><div class="frame"><p class="center"><img src="Images/Landing_MOON.png" width=600px><br><i>fig24.</i> The landing</p></img></div></div>
+				 <p>The results of this are on the table on the right. As you can see, the drag forces overpower the craft significantly at lower at the mass range, however all these values dip below 10% at the higher end.
+				 <br>This is perfect, as we can simply implement a 10% margin of error to account for these factors if the rocket is big enout (which it will most certainly be).</p>
+				 <h2>Chapter 6: To the moon!</h2>
+				 <p>Now we have a basis of theory for our rocket's design, we can design a craft to perform a mission. Our mission? Put a man on the moon, and get him home safely. We shall use a margin of error of 5%, so our
+				  rocket will have 5% extra 𝚫v to accomidate for piloting errors. We shall increace this to 15% for the earth ascent. Here is the final 𝚫v list we need:</p>
+				 <ol>
+					<li>Low earth orbit: 8970𝚫v</li>
+					<li>Trans-Lunar Injection Burn: 3255𝚫v</li>
+					<li>Moon Orbit: 1035𝚫v</li>
+					<li>Moon landing: 1840𝚫v</li>
+					<li>Moon Orbit (from moon surface): 1840𝚫v</li>
+					<li>Earth Aerobreak: 920𝚫v</li>
+				 </ol>
+				 <div class="superframe_R"><div class="frame"><p class="center"><img src="Images/Safe_LandingSV.png" width=600px><br><i>fig25.</i> A safe return</p></img></div></div>
+				 <p>Now, let's put these numbers into the graph and see what rocket comes out! (<i>fig23.</i>)</p>
+				 <p>And success! The rocket perfectly achived it's goal, with just barely any fuel spare. As you know we accounted for about a 5% uncertainty for pilot error and other inefficencies. Seems like that was the perfect amount.</p>
+				 <p>However, this does not look like a perfect rocket. Surely the prediction made an error? This rocket has almost the exact same job as the
+				 <a href="http://upload.wikimedia.org/wikipedia/commons/1/16/Apollo_11_Launch_-_GPN-2000-000630.jpg">Saturn V</a> rocket, why does this look so drastically different?</p>
+				 <p>Well the answer to that lies in the game engine itself, and there are two of them. The first answer is extremely simple: This is a 2D game, the Saturn V was built in real life: 3D. In 3D you get a plane, not a line to put
+				 your engines on. If we translated this effect to SFS, we would essentialy stack two rockets upon each other. If we were to recreate the "density" of rockets in SFS, then we would have to cram 5 engines into a space that
+				  can only fit 2. To help you grasp this concept, look at <a href="https://upload.wikimedia.org/wikipedia/commons/2/2d/Saturn_V%2C_rocket_display.jpg">this</a> picture. These are the Rocketdyne F-1 engines,
+				  the engines used in the first stage of the Saturn V rocket. If you were to look at this from the side-on, you would see two rockets, with a third sandwitched behind it. That would look cramped on a 2D rocket.
+				  Then try to add in the other two hidden by the first two rockets. A 2D plane just has no space</p>
+				 <p>The next reason requires both knowledge about the game design of SFS, and the rockets themselves. When launching off a celstial body (Especialy for one with a high mass like earth) thrust is king. It doesn't
+				 matter what the ISP says, as long as the ISP is above ~250 thrust is the stat to max out for. Our mighty Titan engine can output a staggering 400t of thrust. The F-1 can reach about 800t. Why are SFS's best
+				  rockets half this? Well it's becasue this SFS gamefile is on the "Realistic" mode. The game is meant to be played on the standard mode, where the map is scaled down as to not make it extremely difficult for
+				  people just wanting to enjoy space exploration. This means all the rockets, as to not be absurdly OP have to be tuned down to compensate. This also has the effect of making them underpowered for realistic mode.
+				  While good game design, this does have the (for our purposes) annoying side effect of underpowering our rockets by a factor of 5, hence the sheer number of rockets we have to place.</p>
+				 <h2>Mission acomplished</h2>
+				 <p>Despite these problems, this project turned out to be a sucess! A model for predicting rocket speed was generated, and sucessfully tested. Gravitational consideration, areodynamics and trajectory was correctly
+				  accounted for, and we made a system to systematicaly show the optimum rocket for each stage. Not only that, but my understanding of rockets has massively improved. Design elements I had never considered I now
+				  have a theoretical understanding of as well as a good idea how to apply them to my own hobby rockets. However I have put alot of effort into the learning process itself. What is not writtend down here is the over
+				  twenty pages of rough workings, sketches and failed methods I have jotted down. What you see looks extremely streamlined, but the actual process was far from. I kept going down rabbitholes, pouring hours into equations
+				  that were literaly impossible to solve (I tried to find a analytical solution to a third order differential equation by hand) along with countless hours trying to figure out why desmos refused to render faulty
+				  equations. Despite that I persisted, almost giving up at times. However in the process I learned some truly valuable skills and knowledge. I would also like to thank you for reading this far. It has been quite the journey!</p>
+			</div>
+		</div>
+	</body>
+</HTML>
