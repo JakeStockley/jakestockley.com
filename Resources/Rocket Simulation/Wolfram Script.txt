@@ -1,0 +1,82 @@
+(*UNIVERSAL CONSTANTS*)
+g0 =  9.81;(*~Earth surface gravity*)
+G = 6.67430*10^-11;(*Gravitational Constant*)
+(*PLANETARY VARIABLES*)
+DPR = 6371000;(*Planet radius*)
+MP=5.9722*(10^24);(*Planet mass*)
+(*TRAJECTORY VARIABLES*)
+DFH=120000; (*Final Height*)
+DIH=0;(*Initial height*)
+(*STRUCTURAL VARIABLES*)
+MFT=5;(*Mass of full tank*)
+MET=0.12;(*Mass of empty tank*)
+MO=0;(*Additional mass (fairings, pipes,landing struts, etc)*)
+p=5.2;(*payload*)
+(*ENGINE VARIABLES*)
+ME= 1;(*Engine mass*)
+TET = 40;(*Engine Thrust in tonnes*)
+ISP = 420;(*ISP*)
+(*Situational variables*)
+GS=1;(*Gravity switch*)
+v = 7800; (*Desired v*)
+
+f[x_, y_] := (g0*ISP*Log[(p + ((y/ME)*ME + MO) + (x/MFT)*MFT)/(p + ((y/ME)*ME + MO) + (x/MFT)*MET) ] - GS*(G*MP/(DFH - DIH)*Abs[1/(DPR + DFH) - 1/(DPR + DIH)])*((x/MFT)*(MFT - MET)/((y/ME)*TET/ISP)))
+
+ENG=1;(*Number of engines*)
+F=8;(*Number of fuel tanks*)
+(g0*ISP*Log[(p + ((ENG/ME)*ME + MO) + (F/MFT)*MFT)/(p + ((ENG/ME)*ME + MO) + (F/MFT)*MET) ] - GS*(G*MP/(DFH - DIH)*Abs[1/(DPR + DFH) - 1/(DPR + DIH)])*((F/MFT)*(MFT - MET)/((ENG/ME)*TET/ISP)))
+
+Show[
+  Plot3D[f[x, y], {x, 0, 400*MFT}, {y, 0, 20*ME},
+    PlotRange -> {0, 20000},
+    Mesh -> None,
+    ColorFunction -> "Rainbow",
+    PlotPoints -> 50
+  ],
+  Plot3D[v, {x, 0, 400*MFT}, {y, 0, 20*ME},
+    Mesh -> None,
+    PlotStyle -> Directive[Opacity[0.3], Red]
+  ]
+]
+
+contourPlot = ContourPlot[
+  f[x, y] == v,
+  {x, MFT, 400*MFT},
+  {y, ME, 20*ME},
+  ContourShading -> False,
+  Contours -> {v},
+  FrameLabel -> {"Mass of fuel tanks", "Mass of Engines"}
+]
+
+data = Table[
+  {x, y, f[x, y]},
+  {x, MFT, 400*MFT, MFT},
+  {y, ME, 20*ME, ME}  (* start from mass to avoid division by zero *)
+];
+
+flattenedData = Flatten[data, 1];  (* Flatten to list of {x, y, z} *)
+
+tolerance = 25;  (* how close to v in m/s*)
+
+filteredPoints = Select[
+  flattenedData,
+  #[[3]] > v &
+];
+
+MinPoint = MinimalBy[filteredPoints, #[[1]] + #[[2]] &][[1]] ;
+{xMin, yMin, fVal} = MinPoint;
+wMin = xMin + yMin +p+MO;
+Ms=xMin + yMin + MO;
+nF=xMin/MFT;
+nE=yMin/ME;
+ve=fVal-v;
+ wMin
+ " is the total mass"
+Ms
+" is the stage's mass"
+nE
+" is the number of engines"
+nF
+" is the number of fuel tanks"
+ve
+" is the extra speed"

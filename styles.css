@@ -62,7 +62,7 @@ a p {
 	height: 100px;
 	display: flex;
 	flex: auto;
-	justify-content: space-evenly
+	justify-content: space-evenly;
 }
 
 .menu-item {
@@ -126,6 +126,11 @@ a p {
 	gap: 4px;
 }
 
+.paddingdiv {
+	margin: 5px;
+	padding: 5px;
+}
+
 #centered {
 	text-align: center;
 }
@@ -164,9 +169,27 @@ a p {
 
 #right {
 	float: right;
+	display: inline-block;
+	overflow: hidden;
+	margin: 20px;
 }
 
 #double {
 	grid-column-start: 1;
 	grid-column-end: 3;
+}
+
+#socials-bar {
+	height: 80px;
+	width: 800px;
+	display: flex;
+	flex: auto;
+	justify-content: space-evenly;
+}
+
+#left {
+	float: left;
+	display: inline-block;
+	overflow: hidden;
+	margin: 20px;
 }
