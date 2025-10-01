@@ -208,8 +208,8 @@
 				<p>And success! The rocket perfectly achieved it's goal, with just barely any fuel spare. As you know we accounted for about a 5% uncertainty for pilot error and other inefficiencies. Seems like that was the perfect amount.</p>
 				<br>
 				<div class="photowall" width="800px">
-					<div class="frame" id="right"><img width="390px" src="Images/Rocket Simulation/Landing_MOON.png"><p id="centered"><i>fig 23.</i> </p></div>
-					<div class="frame" id="right"><img width="390px" src="Images/Rocket Simulation/Safe_LandingSV.png"><p id="centered"><i>fig 24.</i> </p></div>	
+					<div class="frame"><img width="390px" src="Images/Rocket Simulation/Landing_MOON.png"><p id="centered"><i>fig 23.</i> </p></div>
+					<div class="frame"><img width="390px" src="Images/Rocket Simulation/Safe_LandingSV.png"><p id="centered"><i>fig 24.</i> </p></div>	
 				</div>
 				<p>However, this does not look like a perfect rocket. Surely the prediction made an error? This rocket has almost the exact same job as the <a id="visible-link" href="https://en.wikipedia.org/wiki/Saturn_V">Saturn V</a>, why does this look so drastically different?</p>
 				<p>Well the answer to that lies in the game engine itself, and there are two of them. The first answer is extremely simple: This is a 2D game, the Saturn V was built in real life: 3D. In 3D you get a plane, not a line to put your engines on. If we translated this effect to SFS, we would essentially stack two rockets upon each other. If we were to recreate the "density" of rockets in SFS, then we would have to cram 5 engines into a space that can only fit 2. To help you grasp this concept, look at <a id="visible-link" href="https://upload.wikimedia.org/wikipedia/commons/1/16/S-IC_engines_and_Von_Braun.jpg">this</a> picture. These are the Rocketdyne F-1 engines, the engines used in the first stage of the Saturn V rocket. If you were to look at this from the side-on, you would see two rockets, with a third sandwiched behind it. That would look cramped on a 2D rocket. Then try to add in the other two hidden by the first two rockets. A 2D plane just has no space.</p>
