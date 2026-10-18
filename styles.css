@@ -92,8 +92,9 @@ a p {
 	width: 200px;
 }
 
-.menu-item:hover .drop-menu {
-  display: block;
+.menu-item:hover .drop-menu,
+.menu-item:focus-within .drop-menu {
+    display: block;
 }
 
 .textbox {
